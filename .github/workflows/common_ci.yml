@@ -1,0 +1,38 @@
+name: Common CI
+on:
+  workflow_call:
+    inputs:
+      go-version:
+        description: "Go version to use for the jobs."
+        required: true
+        type: string
+
+jobs:
+  unit-test-and-coverage:
+    runs-on: ubuntu-latest
+    name: 'Unit Tests and Coverage'
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Go ${{ inputs.go-version }}
+        uses: actions/setup-go@v5
+        with:
+          go-version: ${{ inputs.go-version }}
+      - name: Install gcloud SDK
+        uses: google-github-actions/setup-gcloud@v2
+        with:
+          version: 'latest'
+          install_components: 'beta,cloud-firestore-emulator'
+      - name: Start Firestore Emulator
+        run: |
+          gcloud beta emulators firestore start --host-port=localhost:8080 &
+          sleep 5
+      - uses: ./.github/actions/unit-tests
+        env:
+          FIRESTORE_EMULATOR_HOST: localhost:8080
+        with:
+          lint: 'true'
+      - uses: ./.github/actions/coverage
+        env:
+          FIRESTORE_EMULATOR_HOST: localhost:8080
+        with:
+          enforce: 'false'
