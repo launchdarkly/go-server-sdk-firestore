@@ -3,7 +3,9 @@ package ldfirestore
 import (
 	"context"
 	"os"
+	"strings"
 	"testing"
+	"time"
 
 	"cloud.google.com/go/firestore"
 	"github.com/launchdarkly/go-sdk-common/v3/ldlog"
@@ -289,7 +291,7 @@ func isEmulatorAvailable() bool {
 		os.Setenv(emulatorHost, defaultEmulatorValue)
 	}
 
-	// Try to create a client and do a simple operation
+	// Try to create a client and do a simple operation with a timeout
 	client, err := createTestClient()
 	if err != nil {
 		return false
@@ -297,8 +299,20 @@ func isEmulatorAvailable() bool {
 	defer client.Close()
 
 	// Try a simple operation to verify the emulator is responsive
-	ctx := context.Background()
+	// Use a short timeout to avoid hanging if emulator isn't running
+	ctx, cancel := context.WithTimeout(context.Background(), 2*time.Second)
+	defer cancel()
+
 	_, err = client.Collection("test").Doc("test").Get(ctx)
 	// We don't care if the document exists, just that we can connect
-	return err == nil || err.Error() != "context deadline exceeded"
+	// Return false if we get a timeout or connection error
+	if err != nil {
+		errStr := err.Error()
+		if strings.Contains(errStr, "context deadline exceeded") ||
+			strings.Contains(errStr, "connection refused") ||
+			strings.Contains(errStr, "no such host") {
+			return false
+		}
+	}
+	return true
 }
