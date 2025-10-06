@@ -140,7 +140,7 @@ func TestDataStoreSkipsAndLogsTooLargeItem(t *testing.T) {
 				ctx.Logging.Loggers = mockLog.Loggers
 				store, err := makeTestStore("").Build(ctx)
 				require.NoError(t, err)
-				defer store.Close()
+				defer func() { _ = store.Close() }()
 
 				dataPlusBadItem := makeGoodData()
 				collection := dataPlusBadItem[params.collIndex]
@@ -170,7 +170,7 @@ func TestDataStoreSkipsAndLogsTooLargeItem(t *testing.T) {
 				ctx.Logging.Loggers = mockLog.Loggers
 				store, err := makeTestStore("").Build(ctx)
 				require.NoError(t, err)
-				defer store.Close()
+				defer func() { _ = store.Close() }()
 
 				goodData := makeGoodData()
 				require.NoError(t, store.Init(goodData))
@@ -203,7 +203,7 @@ func makeFailedStore() subsystems.ComponentConfigurer[subsystems.PersistentDataS
 	}
 
 	store.FirestoreClient(client)
-	client.Close()
+	_ = client.Close()
 
 	return store
 }
@@ -218,7 +218,7 @@ func clearTestData(prefix string) error {
 	if err != nil {
 		return err
 	}
-	defer client.Close()
+	defer func() { _ = client.Close() }()
 
 	ctx := context.Background()
 	coll := client.Collection(testCollectionName)
@@ -288,7 +288,7 @@ func isEmulatorAvailable() bool {
 	// Check if emulator is configured
 	if os.Getenv(emulatorHost) == "" {
 		// Try to set it to default and test
-		os.Setenv(emulatorHost, defaultEmulatorValue)
+		_ = os.Setenv(emulatorHost, defaultEmulatorValue)
 	}
 
 	// Try to create a client and do a simple operation with a timeout
@@ -296,7 +296,7 @@ func isEmulatorAvailable() bool {
 	if err != nil {
 		return false
 	}
-	defer client.Close()
+	defer func() { _ = client.Close() }()
 
 	// Try a simple operation to verify the emulator is responsive
 	// Use a short timeout to avoid hanging if emulator isn't running

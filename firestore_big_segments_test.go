@@ -18,7 +18,7 @@ func TestBigSegmentStore(t *testing.T) {
 		if err != nil {
 			return err
 		}
-		defer client.Close()
+		defer func() { _ = client.Close() }()
 
 		ctx := context.Background()
 		docID := makeTestDocID(prefix, bigSegmentsMetadataKey, bigSegmentsMetadataKey)
@@ -39,7 +39,7 @@ func TestBigSegmentStore(t *testing.T) {
 		if err != nil {
 			return err
 		}
-		defer client.Close()
+		defer func() { _ = client.Close() }()
 
 		ctx := context.Background()
 		docID := makeTestDocID(prefix, bigSegmentsUserDataKey, contextHashKey)
