@@ -22,16 +22,16 @@ on:
   workflow_call:
     outputs:
       latest:
-        description: 'The most recent Go version to test'
+        description: "The most recent Go version to test"
         value: ${{ jobs.go-versions.outputs.latest }}
       penultimate:
-        description: 'The second most recent Go version to test'
+        description: "The second most recent Go version to test"
         value: ${{ jobs.go-versions.outputs.penultimate }}
       min:
-        description: 'The minimum Go version to test'
+        description: "The minimum Go version to test"
         value: ${{ jobs.go-versions.outputs.min }}
       matrix:
-        description: 'All Go versions to test as a matrix'
+        description: "All Go versions to test as a matrix"
         value: ${{ jobs.go-versions.outputs.all }}
 
 jobs:
@@ -45,8 +45,14 @@ jobs:
       - uses: actions/checkout@v4
       - name: Set Go Versions
         id: set-env
-        run:  cat ./.github/variables/go-versions.env > $GITHUB_OUTPUT
+        run: cat ./.github/variables/go-versions.env > $GITHUB_OUTPUT
       - name: Set Go Version Matrices
         id: set-matrix
         run: |
-          echo "all=[\"${{ steps.set-env.outputs.latest }}\",\"${{ steps.set-env.outputs.penultimate }}\",\"${{ steps.set-env.outputs.min }}\"]" >> $GITHUB_OUTPUT
+          if [ "${{ steps.set-env.outputs.latest }}" == "${{ steps.set-env.outputs.penultimate }}" ] && [ "${{ steps.set-env.outputs.penultimate }}" == "${{ steps.set-env.outputs.min }}" ]; then
+            echo "all=[\"${{ steps.set-env.outputs.latest }}\"]" >> $GITHUB_OUTPUT
+          elif [ "${{ steps.set-env.outputs.penultimate }}" == "${{ steps.set-env.outputs.min }}" ]; then
+            echo "all=[\"${{ steps.set-env.outputs.latest }}\",\"${{ steps.set-env.outputs.penultimate }}\"]" >> $GITHUB_OUTPUT
+          else
+            echo "all=[\"${{ steps.set-env.outputs.latest }}\",\"${{ steps.set-env.outputs.penultimate }}\",\"${{ steps.set-env.outputs.min }}\"]" >> $GITHUB_OUTPUT
+          fi
