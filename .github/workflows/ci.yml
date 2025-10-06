@@ -52,7 +52,7 @@ jobs:
           install_components: 'beta,cloud-firestore-emulator'
       - name: Start Firestore Emulator
         run: |
-          Start-Process -NoNewWindow gcloud beta emulators firestore start --host-port=localhost:8080
+          Start-Job -ScriptBlock { gcloud beta emulators firestore start --host-port=localhost:8080 }
           Start-Sleep -Seconds 5
       - name: Test
         env:
