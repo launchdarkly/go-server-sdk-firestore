@@ -3,6 +3,7 @@ package ldfirestore
 import (
 	"context"
 	"errors"
+	"fmt"
 
 	"cloud.google.com/go/firestore"
 	"github.com/launchdarkly/go-sdk-common/v3/ldlog"
@@ -105,23 +106,37 @@ func (store *firestoreBigSegmentStoreImpl) GetMembership(
 	}
 
 	data := doc.Data()
-	includedRefs := getStringSliceFromInterface(data[bigSegmentsIncludedAttr])
-	excludedRefs := getStringSliceFromInterface(data[bigSegmentsExcludedAttr])
+	includedRefs, err := getStringSliceFromInterface(data, bigSegmentsIncludedAttr)
+	if err != nil {
+		return nil, err
+	}
+	excludedRefs, err := getStringSliceFromInterface(data, bigSegmentsExcludedAttr)
+	if err != nil {
+		return nil, err
+	}
 
 	return ldstoreimpl.NewBigSegmentMembershipFromSegmentRefs(includedRefs, excludedRefs), nil
 }
 
-func getStringSliceFromInterface(value any) []string {
+func getStringSliceFromInterface(data map[string]any, key string) ([]string, error) {
+	value, found := data[key]
+	if !found {
+		return nil, nil // attribute is optional
+	}
+
 	if arr, ok := value.([]any); ok {
 		result := make([]string, 0, len(arr))
 		for _, v := range arr {
 			if str, ok := v.(string); ok {
 				result = append(result, str)
+			} else {
+				return nil, fmt.Errorf("expected string array but found %v", v)
 			}
 		}
-		return result
+		return result, nil
 	}
-	return nil
+
+	return nil, errors.New("expected string array")
 }
 
 func (store *firestoreBigSegmentStoreImpl) Close() error {
