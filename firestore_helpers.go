@@ -7,23 +7,21 @@ import (
 	"cloud.google.com/go/firestore"
 )
 
-// makeClientAndContext creates a Firestore client and context based on builder options
+// makeClientAndContext creates a new Firestore client and context.
+// This function should only be called when builder.client is nil.
+// The caller is responsible for closing the returned client.
 func makeClientAndContext(builder builderOptions) (*firestore.Client, context.Context, context.CancelFunc, error) {
 	ctx, cancelFunc := context.WithCancel(context.Background())
 
-	client := builder.client
-	if client == nil {
-		var err error
-		opts := builder.clientOptions
-		if builder.projectID == "" {
-			cancelFunc()
-			return nil, nil, nil, fmt.Errorf("project ID is required")
-		}
-		client, err = firestore.NewClient(ctx, builder.projectID, opts...)
-		if err != nil {
-			cancelFunc()
-			return nil, nil, nil, err
-		}
+	if builder.projectID == "" {
+		cancelFunc()
+		return nil, nil, nil, fmt.Errorf("project ID is required")
+	}
+
+	client, err := firestore.NewClient(ctx, builder.projectID, builder.clientOptions...)
+	if err != nil {
+		cancelFunc()
+		return nil, nil, nil, err
 	}
 
 	return client, ctx, cancelFunc, nil

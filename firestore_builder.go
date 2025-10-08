@@ -122,6 +122,14 @@ func (b *StoreBuilder[T]) Prefix(prefix string) *StoreBuilder[T] {
 // FirestoreClient specifies an existing Firestore client instance. Use this if you want to customize the client
 // used by the data store in ways that are not supported by other StoreBuilder options. If you
 // specify this option, then any configurations specified with ClientOptions will be ignored.
+//
+// Client ownership: When you provide a client using this method, you retain ownership of that client.
+// The store will NOT close the client when the store is closed. It is your responsibility to close
+// the client when you're done with it. This allows you to share a single Firestore client across
+// multiple stores or other components of your application.
+//
+// If you do NOT provide a client (i.e., if you rely on the default behavior), the store will create
+// its own client internally and will close it automatically when the store is closed.
 func (b *StoreBuilder[T]) FirestoreClient(client *firestore.Client) *StoreBuilder[T] {
 	b.client = client
 	return b

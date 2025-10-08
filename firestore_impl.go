@@ -57,6 +57,7 @@ type firestoreDataStore struct {
 	prefix         string
 	loggers        ldlog.Loggers
 	testUpdateHook func() // Used only by unit tests
+	ownsClient     bool   // true if we created the client and should close it
 }
 
 func newFirestoreDataStoreImpl(builder builderOptions, loggers ldlog.Loggers) (*firestoreDataStore, error) {
@@ -64,9 +65,24 @@ func newFirestoreDataStoreImpl(builder builderOptions, loggers ldlog.Loggers) (*
 		return nil, errors.New("collection name is required")
 	}
 
-	client, ctx, cancelContext, err := makeClientAndContext(builder)
-	if err != nil {
-		return nil, err
+	var client *firestore.Client
+	var ctx context.Context
+	var cancelContext func()
+	var ownsClient bool
+	var err error
+
+	// If a client was provided, use it directly. Otherwise, create a new one.
+	// We only close clients that we create ourselves.
+	if builder.client != nil {
+		client = builder.client
+		ctx, cancelContext = context.WithCancel(context.Background())
+		ownsClient = false
+	} else {
+		client, ctx, cancelContext, err = makeClientAndContext(builder)
+		if err != nil {
+			return nil, err
+		}
+		ownsClient = true
 	}
 
 	store := &firestoreDataStore{
@@ -76,6 +92,7 @@ func newFirestoreDataStoreImpl(builder builderOptions, loggers ldlog.Loggers) (*
 		collection:    builder.collection,
 		prefix:        builder.prefix,
 		loggers:       loggers, // copied by value so we can modify it
+		ownsClient:    ownsClient,
 	}
 	store.loggers.SetPrefix("ldfirestore:")
 	store.loggers.Infof(`Using Firestore collection %s`, store.collection)
@@ -280,7 +297,12 @@ func (store *firestoreDataStore) IsStoreAvailable() bool {
 
 func (store *firestoreDataStore) Close() error {
 	store.cancelContext() // stops any pending operations
-	return store.client.Close()
+	// Only close the client if we created it. If a client was provided to us,
+	// it's the caller's responsibility to close it.
+	if store.ownsClient {
+		return store.client.Close()
+	}
+	return nil
 }
 
 func (store *firestoreDataStore) prefixedNamespace(baseNamespace string) string {

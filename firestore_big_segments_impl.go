@@ -30,6 +30,7 @@ type firestoreBigSegmentStoreImpl struct {
 	collection    string
 	prefix        string
 	loggers       ldlog.Loggers
+	ownsClient    bool // true if we created the client and should close it
 }
 
 func newFirestoreBigSegmentStoreImpl(
@@ -40,9 +41,18 @@ func newFirestoreBigSegmentStoreImpl(
 		return nil, errors.New("collection name is required")
 	}
 
-	client, ctx, cancelContext, err := makeClientAndContext(builder)
-	if err != nil {
-		return nil, err
+	client := builder.client
+	ctx, cancelContext := context.WithCancel(context.Background())
+	ownsClient := false
+
+	// If a client was provided, use it directly. Otherwise, create a new one.
+	// We only close clients that we create ourselves.
+	if client == nil {
+		var err error
+		if client, ctx, cancelContext, err = makeClientAndContext(builder); err != nil {
+			return nil, err
+		}
+		ownsClient = true
 	}
 
 	store := &firestoreBigSegmentStoreImpl{
@@ -52,6 +62,7 @@ func newFirestoreBigSegmentStoreImpl(
 		collection:    builder.collection,
 		prefix:        builder.prefix,
 		loggers:       loggers, // copied by value so we can modify it
+		ownsClient:    ownsClient,
 	}
 	store.loggers.SetPrefix("FirestoreBigSegmentStore:")
 	store.loggers.Infof(`Using Firestore collection %s`, store.collection)
@@ -141,7 +152,12 @@ func getStringSliceFromInterface(data map[string]any, key string) ([]string, err
 
 func (store *firestoreBigSegmentStoreImpl) Close() error {
 	store.cancelContext() // stops any pending operations
-	return store.client.Close()
+	// Only close the client if we created it. If a client was provided to us,
+	// it's the caller's responsibility to close it.
+	if store.ownsClient {
+		return store.client.Close()
+	}
+	return nil
 }
 
 func (store *firestoreBigSegmentStoreImpl) makeDocID(namespace, key string) string {
