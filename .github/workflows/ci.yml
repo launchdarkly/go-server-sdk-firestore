@@ -46,7 +46,7 @@ jobs:
           distribution: 'temurin'
           java-version: '21'
       - name: Install gcloud SDK
-        uses: google-github-actions/setup-gcloud@v2
+        uses: google-github-actions/setup-gcloud@e427ad8a34f8676edf47cf7d7925499adf3eb74f # v2
         with:
           version: 'latest'
           install_components: 'beta,cloud-firestore-emulator'
