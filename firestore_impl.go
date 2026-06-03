@@ -29,7 +29,7 @@ import (
 	"fmt"
 
 	"cloud.google.com/go/firestore"
-	"github.com/launchdarkly/go-sdk-common/v3/ldlog"
+	"github.com/launchdarkly/go-sdk-common/v4/ldlog"
 	"github.com/launchdarkly/go-server-sdk/v7/subsystems/ldstoretypes"
 	"google.golang.org/api/iterator"
 	"google.golang.org/grpc/codes"
