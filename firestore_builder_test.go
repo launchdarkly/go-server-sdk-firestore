@@ -4,7 +4,7 @@ import (
 	"testing"
 
 	"cloud.google.com/go/firestore"
-	"github.com/launchdarkly/go-sdk-common/v4/ldvalue"
+	"github.com/launchdarkly/go-sdk-common/v3/ldvalue"
 	"github.com/launchdarkly/go-server-sdk/v7/subsystems"
 	"github.com/stretchr/testify/assert"
 	"google.golang.org/api/option"
