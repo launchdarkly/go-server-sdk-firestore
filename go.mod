@@ -59,7 +59,4 @@ require (
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
 
-// v0.1.2 upgraded to the go-sdk-common/v4 (and related /v4) core libraries. Those
-// /v4 major bumps are a breaking change for customers (Go semantic import
-// versioning), so v0.1.2 is retracted in favor of a v3-core release. See SDK-2496.
-retract v0.1.2
+retract v0.1.2 // Introduced unintentional breaking changes; use version v0.1.3 or later.
