@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     name: 'Unit Tests and Coverage'
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: Setup Go ${{ inputs.go-version }}
         uses: actions/setup-go@v5
         with:
