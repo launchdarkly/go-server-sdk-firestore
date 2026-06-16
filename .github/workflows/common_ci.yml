@@ -12,13 +12,13 @@ jobs:
     runs-on: ubuntu-latest
     name: 'Unit Tests and Coverage'
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: Setup Go ${{ inputs.go-version }}
         uses: actions/setup-go@v6
         with:
           go-version: ${{ inputs.go-version }}
       - name: Setup Java 21
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           distribution: 'temurin'
           java-version: '21'

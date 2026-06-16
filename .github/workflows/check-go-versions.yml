@@ -12,7 +12,7 @@ jobs:
       penultimate: ${{ steps.parse.outputs.penultimate }}
     timeout-minutes: 2
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         # Perform a GET request to endoflife.date for the Go language. The response
         # contains all Go releases; we're interested in the 0'th and 1'th (latest and penultimate.)
       - name: Fetch officially supported Go versions
@@ -43,7 +43,7 @@ jobs:
       officialLatestVersion: ${{ needs.check-go-eol.outputs.latest }}
       officialPenultimateVersion: ${{ needs.check-go-eol.outputs.penultimate }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           ref: ${{ matrix.branch }}
 
@@ -61,7 +61,7 @@ jobs:
 
       - name: Create pull request
         if: steps.update-go-versions.outcome == 'success'
-        uses: peter-evans/create-pull-request@c5a7806660adbe173f04e3e038b0ccdcd758773c # v6
+        uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8.1.1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           add-paths: |
