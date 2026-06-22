@@ -6,7 +6,7 @@ require (
 	cloud.google.com/go/firestore v1.22.0
 	github.com/launchdarkly/go-sdk-common/v3 v3.5.0
 	github.com/launchdarkly/go-server-sdk-evaluation/v3 v3.0.1
-	github.com/launchdarkly/go-server-sdk/v7 v7.15.3
+	github.com/launchdarkly/go-server-sdk/v7 v7.15.4
 	github.com/launchdarkly/go-test-helpers/v2 v2.3.2
 	github.com/stretchr/testify v1.11.1
 	google.golang.org/api v0.283.0
