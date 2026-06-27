@@ -42,7 +42,7 @@ jobs:
       penultimate: ${{ steps.set-env.outputs.penultimate }}
       all: ${{ steps.set-matrix.outputs.all }}
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v6.0.3
       - name: Set Go Versions
         id: set-env
         run: cat ./.github/variables/go-versions.env > $GITHUB_OUTPUT
