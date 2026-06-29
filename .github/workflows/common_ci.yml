@@ -14,7 +14,7 @@ jobs:
     steps:
       - uses: actions/checkout@v6.0.3
       - name: Setup Go ${{ inputs.go-version }}
-        uses: actions/setup-go@v6
+        uses: actions/setup-go@v6.4.0
         with:
           go-version: ${{ inputs.go-version }}
       - name: Setup Java 21
