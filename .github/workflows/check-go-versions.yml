@@ -12,7 +12,7 @@ jobs:
       penultimate: ${{ steps.parse.outputs.penultimate }}
     timeout-minutes: 2
     steps:
-      - uses: actions/checkout@v6.0.3
+      - uses: actions/checkout@v7.0.0
         # Perform a GET request to endoflife.date for the Go language. The response
         # contains all Go releases; we're interested in the 0'th and 1'th (latest and penultimate.)
       - name: Fetch officially supported Go versions
@@ -43,7 +43,7 @@ jobs:
       officialLatestVersion: ${{ needs.check-go-eol.outputs.latest }}
       officialPenultimateVersion: ${{ needs.check-go-eol.outputs.penultimate }}
     steps:
-      - uses: actions/checkout@v6.0.3
+      - uses: actions/checkout@v7.0.0
         with:
           ref: ${{ matrix.branch }}
 
