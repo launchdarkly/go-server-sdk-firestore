@@ -35,9 +35,9 @@ jobs:
       matrix:
         go-version: ${{ fromJSON(needs.go-versions.outputs.matrix) }}
     steps:
-      - uses: actions/checkout@v7.0.0
+      - uses: actions/checkout@v7.0.1
       - name: Setup Go ${{ matrix.go-version }}
-        uses: actions/setup-go@v6.5.0
+        uses: actions/setup-go@v7.0.0
         with:
           go-version: ${{ matrix.go-version }}
       - name: Setup Java 21
