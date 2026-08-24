@@ -16,7 +16,7 @@ jobs:
         # Perform a GET request to endoflife.date for the Go language. The response
         # contains all Go releases; we're interested in the 0'th and 1'th (latest and penultimate.)
       - name: Fetch officially supported Go versions
-        uses: JamesIves/fetch-api-data-action@8dc51e982d982157bfd575ed64be3c48b3078037 # v2.5.0
+        uses: JamesIves/fetch-api-data-action@1df37d52090c0a251f252c7ba247d2aba1d408ae # v2.5.2
         with:
           endpoint: https://endoflife.date/api/go.json
           configuration: '{ "method": "GET" }'
