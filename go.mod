@@ -4,7 +4,7 @@ go 1.25.8
 
 require (
 	cloud.google.com/go/firestore v1.24.0
-	github.com/launchdarkly/go-sdk-common/v3 v3.5.0
+	github.com/launchdarkly/go-sdk-common/v3 v3.5.1
 	github.com/launchdarkly/go-server-sdk-evaluation/v3 v3.0.1
 	github.com/launchdarkly/go-server-sdk/v7 v7.15.5
 	github.com/launchdarkly/go-test-helpers/v2 v2.3.2
@@ -31,7 +31,7 @@ require (
 	github.com/josharian/intern v1.0.0 // indirect
 	github.com/launchdarkly/ccache v1.1.0 // indirect
 	github.com/launchdarkly/eventsource v1.10.0 // indirect
-	github.com/launchdarkly/go-jsonstream/v3 v3.1.1 // indirect
+	github.com/launchdarkly/go-jsonstream/v3 v3.1.2 // indirect
 	github.com/launchdarkly/go-sdk-events/v3 v3.6.2 // indirect
 	github.com/launchdarkly/go-semver v1.0.3 // indirect
 	github.com/launchdarkly/go-test-helpers/v3 v3.1.0 // indirect
