@@ -3,7 +3,7 @@ module github.com/launchdarkly/go-server-sdk-firestore
 go 1.25.8
 
 require (
-	cloud.google.com/go/firestore v1.24.0
+	cloud.google.com/go/firestore v1.25.0
 	github.com/launchdarkly/go-sdk-common/v3 v3.5.1
 	github.com/launchdarkly/go-server-sdk-evaluation/v3 v3.0.1
 	github.com/launchdarkly/go-server-sdk/v7 v7.15.5
