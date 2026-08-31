@@ -10,7 +10,7 @@ require (
 	github.com/launchdarkly/go-test-helpers/v2 v2.3.2
 	github.com/stretchr/testify v1.12.1
 	google.golang.org/api v0.293.0
-	google.golang.org/grpc v1.83.0
+	google.golang.org/grpc v1.83.1
 )
 
 require (
