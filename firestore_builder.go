@@ -147,8 +147,11 @@ func (b *StoreBuilder[T]) Build(context subsystems.ClientContext) (T, error) {
 	return b.factory(b, context)
 }
 
+var _ subsystems.DiagnosticDescription = &StoreBuilder[subsystems.PersistentDataStore]{}
+var _ subsystems.DiagnosticDescription = &StoreBuilder[subsystems.BigSegmentStore]{}
+
 // DescribeConfiguration is used internally by the SDK to inspect the configuration.
-func (b *StoreBuilder[T]) DescribeConfiguration() ldvalue.Value {
+func (b *StoreBuilder[T]) DescribeConfiguration(context subsystems.ClientContext) ldvalue.Value {
 	return ldvalue.String("Firestore")
 }
 

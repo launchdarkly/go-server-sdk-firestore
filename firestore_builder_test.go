@@ -70,7 +70,7 @@ func TestDataStoreBuilder(t *testing.T) {
 	})
 
 	t.Run("diagnostic description", func(t *testing.T) {
-		value := DataStore("my-project", "my-collection").DescribeConfiguration()
+		value := DataStore("my-project", "my-collection").DescribeConfiguration(subsystems.BasicClientContext{})
 		assert.Equal(t, ldvalue.String("Firestore"), value)
 	})
 }
@@ -91,7 +91,7 @@ func TestBigSegmentStoreBuilder(t *testing.T) {
 	})
 
 	t.Run("diagnostic description", func(t *testing.T) {
-		value := BigSegmentStore("my-project", "my-collection").DescribeConfiguration()
+		value := BigSegmentStore("my-project", "my-collection").DescribeConfiguration(subsystems.BasicClientContext{})
 		assert.Equal(t, ldvalue.String("Firestore"), value)
 	})
 }
