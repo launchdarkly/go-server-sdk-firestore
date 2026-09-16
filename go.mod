@@ -1,6 +1,6 @@
 module github.com/launchdarkly/go-server-sdk-firestore
 
-go 1.25.8
+go 1.26.0
 
 require (
 	cloud.google.com/go/firestore v1.25.0

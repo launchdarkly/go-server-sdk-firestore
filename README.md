@@ -6,7 +6,7 @@ This library provides a [Google Cloud Firestore](https://cloud.google.com/firest
 
 This version of the library requires at least version 7.0.0 of the LaunchDarkly Go SDK.
 
-The minimum Go version is 1.23.
+The minimum Go version is 1.26.
 
 For more information, see also: [Using a persistent feature store](https://docs.launchdarkly.com/sdk/features/storing-data).
 
