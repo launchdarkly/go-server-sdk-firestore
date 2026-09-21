@@ -2,6 +2,22 @@
 
 All notable changes to the LaunchDarkly Go SDK Firestore integration will be documented in this file. This project adheres to [Semantic Versioning](http://semver.org).
 
+## [0.2.0](https://github.com/launchdarkly/go-server-sdk-firestore/compare/v0.1.3...v0.2.0) (2026-09-21)
+
+
+### ⚠ BREAKING CHANGES
+
+* Take a client context in DescribeConfiguration ([#73](https://github.com/launchdarkly/go-server-sdk-firestore/issues/73))
+
+### Features
+
+* Take a client context in DescribeConfiguration ([#73](https://github.com/launchdarkly/go-server-sdk-firestore/issues/73)) ([b5dfcd3](https://github.com/launchdarkly/go-server-sdk-firestore/commit/b5dfcd315f0fc137ff010d57f0acc9e54e90f9f5))
+
+
+### Bug Fixes
+
+* Bump minimum Go version to 1.26 ([#77](https://github.com/launchdarkly/go-server-sdk-firestore/issues/77)) ([e9c3a42](https://github.com/launchdarkly/go-server-sdk-firestore/commit/e9c3a42deda109c0920b31362bc97cab63008960))
+
 ## [0.1.3](https://github.com/launchdarkly/go-server-sdk-firestore/compare/v0.1.2...v0.1.3) (2026-06-11)
 
 
