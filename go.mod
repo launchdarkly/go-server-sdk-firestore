@@ -9,7 +9,7 @@ require (
 	github.com/launchdarkly/go-server-sdk/v7 v7.21.2
 	github.com/launchdarkly/go-test-helpers/v2 v2.3.2
 	github.com/stretchr/testify v1.12.1
-	google.golang.org/api v0.309.0
+	google.golang.org/api v0.310.0
 	google.golang.org/grpc v1.85.0
 )
 
@@ -25,7 +25,7 @@ require (
 	github.com/go-logr/stdr v1.2.2 // indirect
 	github.com/google/s2a-go v0.1.11 // indirect
 	github.com/google/uuid v1.6.0 // indirect
-	github.com/googleapis/enterprise-certificate-proxy v0.3.23 // indirect
+	github.com/googleapis/enterprise-certificate-proxy v0.3.24 // indirect
 	github.com/googleapis/gax-go/v2 v2.27.0 // indirect
 	github.com/gregjones/httpcache v0.0.0-20171119193500-2bcd89a1743f // indirect
 	github.com/josharian/intern v1.0.0 // indirect
